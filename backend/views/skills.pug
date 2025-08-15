@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .card
+    .flex.justify-between.items-center.mb-2
+      h1 Manage Skills
+      a.button.secondary(href='/admin/skills/new') Add New Skill
+    
+    .back-button
+      a.button.secondary(href='/admin') ← Back to Admin
+    
+    if skills.length > 0
+      ul.list
+        each skill in skills
+          li
+            .row
+              .col
+                h3= skill.name
+                p Level: #{skill.level}
+                small Added: #{new Date(skill.createdAt).toLocaleDateString()}
+              .actions
+                a.button.edit(href=`/admin/skills/edit/${skill._id}`) Edit
+                form.inline(action=`/admin/skills/${skill._id}?_method=DELETE`, method='POST')
+                  button.button.danger(type='submit') Delete
+    else
+      p.text-center No skills found. Add your first skill!

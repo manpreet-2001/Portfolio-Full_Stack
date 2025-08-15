@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  .container
+    .header
+      h1= project._id ? 'Edit Project' : 'Add New Project'
+      .back-button
+        a.button.secondary(href='/admin/projects') ← Back to Projects
+    
+    form.form(method='POST' action=project._id ? `/admin/projects/${project._id}?_method=PUT` : '/admin/projects')
+      .form-group
+        label(for='title') Project Title *
+        input#title(type='text' name='title' value=project.title required)
+      
+      .form-group
+        label(for='description') Description *
+        textarea#description(name='description' rows='4' required)= project.description
+      
+      .form-row
+        .form-group
+          label(for='image') Emoji/Icon
+          input#image(type='text' name='image' value=project.image placeholder='📱')
+        
+        .form-group
+          label(for='category') Category
+          select#category(name='category')
+            option(value='Frontend' selected=project.category === 'Frontend') Frontend
+            option(value='Backend' selected=project.category === 'Backend') Backend
+            option(value='Full Stack' selected=project.category === 'Full Stack') Full Stack
+            option(value='Mobile' selected=project.category === 'Mobile') Mobile
+            option(value='Other' selected=project.category === 'Other') Other
+      
+      .form-row
+        .form-group
+          label(for='github') GitHub URL
+          input#github(type='url' name='github' value=project.github placeholder='https://github.com/username/repo')
+        
+        .form-group
+          label(for='live') Live Demo URL
+          input#live(type='url' name='live' value=project.live placeholder='https://your-project.com')
+      
+      .form-group
+        label(for='technologies') Technologies (comma-separated)
+        input#technologies(type='text' name='technologies' value=project.technologies ? project.technologies.join(', ') : '' placeholder='React, Node.js, MongoDB')
+      
+      .form-row
+        .form-group
+          label(for='order') Display Order
+          input#order(type='number' name='order' value=project.order || 0 min='0')
+        
+        .form-group
+          label.checkbox-label
+            input#featured(type='checkbox' name='featured' checked=project.featured)
+            span Mark as Featured
+      
+      .form-actions
+        button.button.primary(type='submit')= project._id ? 'Update Project' : 'Create Project'
+        a.button.secondary(href='/admin/projects') Cancel 

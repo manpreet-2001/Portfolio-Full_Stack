@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .card
+    h1= experience._id ? 'Edit Experience' : 'Add New Experience'
+    
+    .back-button
+      a.button.secondary(href='/admin/experiences') ← Back to Experiences
+    
+    form(action=experience._id ? `/admin/experiences/${experience._id}?_method=PUT` : '/admin/experiences', method='POST')
+      .form-group
+        label(for='title') Job Title *
+        input#title(type='text', name='title', value=experience.title || '', required)
+      
+      .form-group
+        label(for='company') Company
+        input#company(type='text', name='company', value=experience.company || '')
+      
+      .form-group
+        label(for='startDate') Start Date
+        input#startDate(type='date', name='startDate', value=experience.startDate ? new Date(experience.startDate).toISOString().split('T')[0] : '')
+      
+      .form-group
+        label(for='endDate') End Date
+        input#endDate(type='date', name='endDate', value=experience.endDate ? new Date(experience.endDate).toISOString().split('T')[0] : '')
+        small Leave empty if this is your current position
+      
+      .form-group
+        label(for='description') Description
+        textarea#description(name='description', rows='4')= experience.description || ''
+      
+      .flex.gap-2
+        button.button.primary(type='submit')= experience._id ? 'Update Experience' : 'Add Experience'
+        a.button.secondary(href='/admin/experiences') Cancel

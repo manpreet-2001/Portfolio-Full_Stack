@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .container
+    .header
+      h1 Projects Management
+      a.button.primary(href='/admin/projects/new') Add New Project
+    
+    .back-button
+      a.button.secondary(href='/admin') ← Back to Admin
+    
+    if projects.length === 0
+      .empty-state
+        p No projects found. 
+        a.button.primary(href='/admin/projects/new') Add your first project
+    
+    else
+      .projects-grid
+        each project in projects
+          .project-card
+            .project-header
+              h3= project.title
+              .project-category= project.category
+            .project-content
+              p= project.description
+              if project.technologies && project.technologies.length > 0
+                .tech-tags
+                  each tech in project.technologies
+                    span.tech-tag= tech
+              .project-links
+                if project.github
+                  a.link(href=project.github target='_blank') GitHub
+                if project.live
+                  a.link(href=project.live target='_blank') Live Demo
+              .project-meta
+                if project.featured
+                  span.featured-badge Featured
+                span.order-badge Order: #{project.order || 0}
+            .actions
+              a.button.edit(href=`/admin/projects/edit/${project._id}`) Edit
+              form.inline(action=`/admin/projects/${project._id}?_method=DELETE`, method='POST')
+                button.button.danger(type='submit') Delete 

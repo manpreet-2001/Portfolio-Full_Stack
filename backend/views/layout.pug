@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Portfolio Admin Portal
+    link(rel='stylesheet', href='/style.css')
+  body
+    header
+      h2 Portfolio Admin Portal
+      nav
+        a(class=activePage==='experiences'?'active':'', href='/admin/experiences') Experiences
+        a(class=activePage==='skills'?'active':'', href='/admin/skills') Skills
+        a(class=activePage==='projects'?'active':'', href='/admin/projects') Projects
+    main
+      block content

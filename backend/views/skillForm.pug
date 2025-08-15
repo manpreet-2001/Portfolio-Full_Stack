@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .card
+    h1= skill._id ? 'Edit Skill' : 'Add New Skill'
+    
+    .back-button
+      a.button.secondary(href='/admin/skills') ← Back to Skills
+    
+    form(action=skill._id ? `/admin/skills/${skill._id}?_method=PUT` : '/admin/skills', method='POST')
+      .form-group
+        label(for='name') Skill Name *
+        input#name(type='text', name='name', value=skill.name || '', required)
+      
+      .form-group
+        label(for='level') Skill Level
+        select#level(name='level')
+          option(value='Beginner', selected=skill.level === 'Beginner') Beginner
+          option(value='Intermediate', selected=skill.level === 'Intermediate') Intermediate
+          option(value='Expert', selected=skill.level === 'Expert') Expert
+      
+      .flex.gap-2
+        button.button.primary(type='submit')= skill._id ? 'Update Skill' : 'Add Skill'
+        a.button.secondary(href='/admin/skills') Cancel

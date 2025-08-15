@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  .card
+    .flex.justify-between.items-center.mb-2
+      h1 Manage Experiences
+      a.button.primary(href='/admin/experiences/new') Add New Experience
+    
+    .back-button
+      a.button.secondary(href='/admin') ← Back to Admin
+    
+    if experiences.length > 0
+      ul.list
+        each experience in experiences
+          li
+            .row
+              .col
+                h3= experience.title
+                if experience.company
+                  p Company: #{experience.company}
+                if experience.startDate
+                  p Start: #{new Date(experience.startDate).toLocaleDateString()}
+                if experience.endDate
+                  p End: #{new Date(experience.endDate).toLocaleDateString()}
+                else
+                  p End: Present
+                if experience.description
+                  p= experience.description
+                small Added: #{new Date(experience.createdAt).toLocaleDateString()}
+              .actions
+                a.button.edit(href=`/admin/experiences/edit/${experience._id}`) Edit
+                form.inline(action=`/admin/experiences/${experience._id}?_method=DELETE`, method='POST')
+                  button.button.danger(type='submit') Delete
+    else
+      p.text-center No experiences found. Add your first experience!
